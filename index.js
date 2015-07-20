@@ -28,6 +28,7 @@ function Deps (opts) {
     this.basedir = opts.basedir || process.cwd();
     this.cache = opts.cache;
     this.pkgCache = opts.packageCache || {};
+    this._fs = opts.fs || fs;
     this.pkgFileCache = {};
     this.pkgFileCachePending = {};
     this._emittedPkg = {};
@@ -186,7 +187,7 @@ Deps.prototype.readFile = function (file, id, pkg) {
         tr.push(null);
         return tr;
     }
-    var rs = fs.createReadStream(file);
+    var rs = this._fs.createReadStream(file);
     rs.on('error', function (err) { self.emit('error', err) });
     this.emit('file', file, id);
     return rs;
